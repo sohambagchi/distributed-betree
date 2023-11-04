@@ -41,13 +41,13 @@ void run_yscb_workload(int workload) {
     // need to create a folder to store data
     if (workload == WORKLOAD_A) {
         // load the files needed for workload A
-        load_file_path = "/data/workloadA.txt";
+        load_file_path = "/data/workloadA.dat";
     } else if (workload == WORKLOAD_B) {
-        load_file_path = "/data/workloadB.txt";
+        load_file_path = "/data/workloadB.dat";
     } else if (workload == WORKLOAD_D) {
-        load_file_path = "/data/workloadD.txt";
+        load_file_path = "/data/workloadD.dat";
     } else if(workload == WORKLOAD_F) {
-        load_file_path = "/data/workloadF.txt";
+        load_file_path = "/data/workloadF.data";
     }
 
     std::ifstream load_file(load_file_path);
