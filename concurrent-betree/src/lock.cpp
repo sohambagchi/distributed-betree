@@ -28,11 +28,13 @@ void ReaderWriterLock::acquire_read_lock(uint8_t thread_id) {
 
 void ReaderWriterLock::acquire_write_lock() {
     //! try to acquire write lock
+    printf("Writer trying to acquire lock\n");
     while(__sync_lock_test_and_set(&this->writers, 1))
         //! if not acquired, wait for other writer to finish
         while(this->writers);
     //! spin while readers are present
     while (readers_are_present());
+    printf("\nWriter acquired lock");
     //! acquired
     return;
 }
