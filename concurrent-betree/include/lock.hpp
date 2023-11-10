@@ -49,6 +49,19 @@ public:
 
     //! interface to interact with the lock
     void acquire_read_lock(uint8_t thread_id);
-    void acquire_write_lock(uint8_t thread_id);
+    void acquire_write_lock();
+    void release_read_lock(uint8_t thread_id);
+    void release_write_lock();
+    //! internal function, used for acquiring write lock
+    bool readers_are_present() {
+        //! variable to store the final count
+        uint32_t num_readers = 0;
+        //! sum over all counters
+        //! we are not acquiring locks for sum because we are ok with slightly relaxed consistency levels
+        for (auto reader: readers) {
+            num_readers += reader.count;
+        }
+        return num_readers > 0;
+    }
 };
 #endif
