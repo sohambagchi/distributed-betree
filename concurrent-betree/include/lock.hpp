@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <thread>
 #include <cstdio>
+#include <mutex>
 //! A default value, just in case we are unable to estimate number of threads.
 #define DEFAULT_NUM_THREADS 48
 //! This file is created to create a simple reader write lock class.
@@ -27,6 +28,8 @@ private:
     uint8_t writers;
     //! metadata regarding the number of possible threads on a system.
     unsigned int num_threads;
+    //! not to be accessed
+    std::mutex count_mutex;
 public:
     //! constructors
     ReaderWriterLock() {
@@ -56,12 +59,14 @@ public:
     //! internal function, used for acquiring write lock
     bool readers_are_present() {
         //! variable to store the final count
+        count_mutex.lock();
         uint32_t num_readers = 0;
         //! sum over all counters
         //! we are not acquiring locks for sum because we are ok with slightly relaxed consistency levels
         for (auto reader: readers) {
             num_readers += reader.count;
         }
+        count_mutex.unlock();
         return num_readers > 0;
     }
 };
