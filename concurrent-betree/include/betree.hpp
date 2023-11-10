@@ -643,6 +643,7 @@ public:
         //! get the calling threads id
         uint8_t cpu_id = sched_getcpu();
         //! acquire read lock
+        //! debug messages
         rwlock.acquire_read_lock(cpu_id);
         uint64_t v = root->query(*this, k);
         //! release write lock

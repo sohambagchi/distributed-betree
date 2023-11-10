@@ -6,6 +6,7 @@
 #define CONCURRENT_BETREE_LOCK_HPP
 #include <cstdint>
 #include <thread>
+#include <cstdio>
 //! A default value, just in case we are unable to estimate number of threads.
 #define DEFAULT_NUM_THREADS 48
 //! This file is created to create a simple reader write lock class.

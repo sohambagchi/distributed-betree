@@ -8,6 +8,7 @@
 
 void ReaderWriterLock::acquire_read_lock(uint8_t thread_id) {
     //! try to acquire read lock
+    printf("Thread %d trying to acquire read lock\n", thread_id);
     while (true) {
         __atomic_fetch_add(&this->readers[thread_id % num_threads].count, 1, __ATOMIC_SEQ_CST);
         //! check if there are any writers
@@ -19,6 +20,7 @@ void ReaderWriterLock::acquire_read_lock(uint8_t thread_id) {
             while (this->writers);
         } else {
             //! read lock acquired
+            printf("Thread %d acquired read lock\n", thread_id);
             return;
         }
     }
@@ -38,11 +40,13 @@ void ReaderWriterLock::acquire_write_lock() {
 void ReaderWriterLock::release_read_lock(uint8_t thread_id) {
     //! reduce our count and exit
     __atomic_fetch_add(&this->readers[thread_id % num_threads].count, -1, __ATOMIC_SEQ_CST);
+    printf("Thread %d released read lock\n", thread_id);
     return;
 }
 
 void ReaderWriterLock::release_write_lock() {
     //! release and return
+    printf("Thread released write lock\n");
     __sync_lock_release(&this->writers);
     return;
 }
