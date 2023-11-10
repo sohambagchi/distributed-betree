@@ -2,10 +2,15 @@ CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Iinclude
 LDFLAGS = -lpthread
 
-all: insertion_test
+all: insertion_test concurrency_test
+
+concurrency_test: concurrency_test.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 insertion_test: insertion_test.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+
+concurrency_test.o: test/concurrency_test.cpp include/betree.hpp include/lock.hpp lock.o
 
 insertion_test.o: tests/insertion_test.cpp include/betree.hpp include/lock.hpp lock.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@

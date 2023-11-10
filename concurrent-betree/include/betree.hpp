@@ -14,7 +14,8 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
-
+#include <sched.h>
+#include "lock.hpp"
 #define DEFAULT_MAX_NODE_SIZE (1ULL<<18)
 #define DEFAULT_MIN_FLUSH_SIZE (DEFAULT_MAX_NODE_SIZE / 16ULL)
 //! we will use this to provide hints to the compiler.
@@ -595,6 +596,8 @@ private:
     uint64_t min_flush_size; //! @refitem minimum flush size for a node
     node *root;
     uint64_t next_timestamp = 1;
+    //! creating an object of reader writer lock
+    ReaderWriterLock rwlock;
 public:
     //! constructors
     //! no need for a default constructor, not needed.
@@ -613,10 +616,15 @@ public:
         message_map tmp;
         MessageKey mkey(key, next_timestamp++);
         tmp[mkey] = MessageValue(opcode, value);
+        //! acquire lock before doing this
+        rwlock.acquire_write_lock();
         pivot_map new_nodes = root->flush(*this, tmp);
         if (new_nodes.size() > 0) {
             root->pivots = new_nodes;
         }
+        //! todo: lock guards
+        //! release locks before going!
+        rwlock.release_write_lock();
     }
 
     void insert(uint64_t key, uint64_t value) {
@@ -632,7 +640,14 @@ public:
     }
 
     uint64_t query(uint64_t k) {
+        //! get the calling threads id
+        uint8_t cpu_id = sched_getcpu();
+        //! acquire read lock
+        rwlock.acquire_read_lock(cpu_id);
         uint64_t v = root->query(*this, k);
+        //! release write lock
+        //! todo: lock guards
+        rwlock.release_read_lock(cpu_id);
         return v;
     }
 
