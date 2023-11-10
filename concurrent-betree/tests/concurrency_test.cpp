@@ -26,18 +26,26 @@ int main() {
     betree kvstore;
 
     const int iterations = 1000;
-    const int numThreads = 5;
+    const int numReaders = 5;
+    const int numWriters = 5;
 
     // Create threads for insert and read operations
-    std::vector<std::thread> threads;
+    std::vector<std::thread> w_threads;
+    std::vector<std::thread> r_threads;
 
-    for (int i = 0; i < numThreads; ++i) {
-        threads.emplace_back(insertTest, std::ref(kvstore), (uint64_t) i * iterations, (uint64_t) i * iterations, iterations);
-        threads.emplace_back(readTest, std::ref(kvstore), (uint64_t) i * iterations, iterations);
+    for (int i = 0; i < numWriters; ++i) {
+        w_threads.emplace_back(insertTest, std::ref(kvstore), (uint64_t) i * iterations, (uint64_t) i * iterations, iterations);
+    }
+
+    for (int i = 0; i < numReaders; i++) {
+        r_threads.emplace_back(readTest, std::ref(kvstore), (uint64_t) i * iterations, iterations);
     }
 
     // Join threads
-    for (auto &thread: threads) {
+    for (auto &thread: r_threads) {
+        thread.join();
+    }
+    for (auto &thread: w_threads) {
         thread.join();
     }
 

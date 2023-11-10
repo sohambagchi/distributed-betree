@@ -62,7 +62,6 @@ public:
         count_mutex.lock();
         uint32_t num_readers = 0;
         //! sum over all counters
-        //! we are not acquiring locks for sum because we are ok with slightly relaxed consistency levels
         for (auto reader: readers) {
             num_readers += reader.count;
         }
