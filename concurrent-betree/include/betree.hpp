@@ -706,7 +706,7 @@ public:
 
         void setup_next_element(void) {
             is_valid = false;
-            while (pos_is_valid && (!is_valid || position.first.key == first)) {
+            while (pos_is_valid && (!is_valid || position.first.get_key() == first)) {
                 apply(position.first, position.second);
                 try {
                     position = bet.root->get_next_message(&position.first);
