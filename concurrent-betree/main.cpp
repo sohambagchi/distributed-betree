@@ -1,5 +1,5 @@
 #include <iostream>
-#include "betree.hpp"
+#include "include/betree.hpp"
 #include <cstdlib>
 #include <ctime>
 
