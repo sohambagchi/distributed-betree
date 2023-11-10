@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -lpthread -Wall
+CXXFLAGS = -std=c++11 -lpthread -Wall -Iinclude
 
 all: main
 
