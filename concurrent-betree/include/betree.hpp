@@ -551,6 +551,13 @@ private:
                 message_key = NULL;
             }
             auto it = message_key ? get_pivot(message_key->get_key()) : pivots.begin();
+            while (it != pivots.end()) {
+                try {
+                    return it->second.child_pointer->get_next_message(message_key);
+                } catch (std::out_of_range &e) {}
+                ++it;
+            }
+            throw std::out_of_range("No more messages in any children");
         }
 
         std::pair<MessageKey, MessageValue> get_next_message(const MessageKey *message_key) const {
