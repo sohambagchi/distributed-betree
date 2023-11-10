@@ -641,10 +641,12 @@ public:
         std::pair<MessageKey, MessageValue> current;
 
         std::cout << "############### BEGIN DUMP ##############" << std::endl;
+	int count = 0;
 
         try {
             current = root->get_next_message(NULL);
             do {
+		count++;
                 std::cout << current.first.get_key() << " "
                           << current.first.get_timestamp() << " "
                           << current.second.get_opcode() << " "
@@ -652,6 +654,7 @@ public:
                 current = root->get_next_message(&current.first);
             } while (1);
         } catch (std::out_of_range e) {}
+	printf("\n\nTotal count = %d", count);
     }
 
     //! Our own definition of iterator
