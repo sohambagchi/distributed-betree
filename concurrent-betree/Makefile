@@ -11,6 +11,7 @@ insertion_test: insertion_test.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 concurrency_test.o: test/concurrency_test.cpp include/betree.hpp include/lock.hpp lock.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@
 
 insertion_test.o: tests/insertion_test.cpp include/betree.hpp include/lock.hpp lock.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@
