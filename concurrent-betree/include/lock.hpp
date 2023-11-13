@@ -34,6 +34,7 @@ public:
     //! constructors
     ReaderWriterLock() {
         num_threads = std::thread::hardware_concurrency();
+        printf("Number of threads supported by underlying hardware %d", num_threads);
         writers = 0;
         struct reader temp;
         for (int i = 0; i < num_threads; i++) {
