@@ -222,7 +222,7 @@ enum {
   PRODUCER_CONSUMER
 };
 
-#define CLIENT_MODE CLIENT_USE_TRACE
+#define CLIENT_MODE YCSB
 
 #define TREIBER_WRITES_NUM 1
 #define TREIBER_NO_CONFLICTS 0
@@ -359,6 +359,7 @@ typedef struct sess_stall_info {
 
 typedef atomic_uint_fast64_t seqlock_t;
 typedef struct mica_op mica_op_t;
+
 
 typedef struct recv_info {
   uint32_t push_ptr;

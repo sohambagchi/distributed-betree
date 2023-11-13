@@ -6,6 +6,10 @@
 #include "../../include/client_api/od_interface.h"
 #include "../../include/trace/od_trace_util.h"
 #include "od_kvs.h"
+#include "../../include/general_util/od_top.h"
+#include <unistd.h>
+#include "../../ycsb.cpp"
+#include "../../include/general_util/od_stats.h"
 
 
 #define CLIENT_ASSERTIONS 0
@@ -3000,6 +3004,9 @@ void *client(void *arg) {
         break;
       case PRODUCER_CONSUMER:
         pc_multi_session(t_id);
+        break;
+      case YCSB:
+          run_yscb_workload(WORKLOAD_A);
       default:
         if (CLIENT_ASSERTIONS) assert(false);
     }

@@ -41,13 +41,13 @@ void run_yscb_workload(int workload) {
     // need to create a folder to store data
     if (workload == WORKLOAD_A) {
         // load the files needed for workload A
-        load_file_path = "/data/workloadA.dat";
+        load_file_path = "../data/workloadA.dat";
     } else if (workload == WORKLOAD_B) {
-        load_file_path = "/data/workloadB.dat";
+        load_file_path = "../data/workloadB.dat";
     } else if (workload == WORKLOAD_D) {
-        load_file_path = "/data/workloadD.dat";
+        load_file_path = "../data/workloadD.dat";
     } else if(workload == WORKLOAD_F) {
-        load_file_path = "/data/workloadF.data";
+        load_file_path = "../data/workloadF.data";
     }
 
     std::ifstream load_file(load_file_path);
@@ -117,4 +117,5 @@ int main(int argc, char** argv) {
     }
     // todo: the actual ycsb run
     run_yscb_workload(workload);
+    mica_kv_t kvs;
 }
