@@ -61,11 +61,11 @@ public:
     bool readers_are_present() {
         //! variable to store the final count
         count_mutex.lock();
-        uint32_t num_readers = 0;
+        uint8_t num_readers = 0;
         //! sum over all counters
-        for (auto reader: readers) {
-            num_readers += reader.count;
-        }
+	for (int i = 0; i < num_threads; i++) {
+		num_readers += readers[i].count;
+	}
         count_mutex.unlock();
         return num_readers > 0;
     }
