@@ -644,10 +644,14 @@ public:
         uint8_t cpu_id = sched_getcpu();
         //! acquire read lock
         //! debug messages
-        rwlock.acquire_read_lock(cpu_id);
-        uint64_t v = root->query(*this, k);
+        uint64_t v;
+        try {
+            rwlock.acquire_read_lock(cpu_id);
+            v = root->query(*this, k);
+        } catch (std::exception &e) {
+            rwlock.release_read_lock(cpu_id);
+        }
         //! release write lock
-        //! todo: lock guards
         rwlock.release_read_lock(cpu_id);
         return v;
     }
@@ -669,7 +673,9 @@ public:
                           << current.second.get_value() << std::endl;
                 current = root->get_next_message(&current.first);
             } while (1);
-        } catch (std::out_of_range e) {}
+        } catch (std::out_of_range e) {
+            // todo: release lock
+        }
 	printf("\n\nTotal count = %d", count);
     }
 
