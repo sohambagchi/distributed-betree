@@ -9,10 +9,13 @@ SANITIZE?=0
 CORRECTNESS?=0
 LEAFDS?=0
 
+CC:=$(CXX)
+CXX:=gcc-11
+
 ifeq ($(LEAFDS),1)
-CFLAGS := -Wall -Wextra -O$(OPT) -g  -std=c++2a -IParallelTools/ -IleafDS/ -I../tlx-leafds -gdwarf-4
+CFLAGS := -Wall -Wextra -O$(OPT) -g  -std=c++20 -IParallelTools/ -IleafDS/ -I../tlx-leafds -gdwarf-4
 else
-CFLAGS := -Wall -Wextra -O$(OPT) -g  -std=c++2a -IParallelTools/ -I../tlx-plain -gdwarf-4
+CFLAGS := -Wall -Wextra -O$(OPT) -g  -std=c++20 -IParallelTools/ -I../tlx-plain -gdwarf-4
 endif
 
 ifeq ($(SANITIZE),1)
