@@ -9,8 +9,10 @@ SANITIZE?=0
 CORRECTNESS?=0
 LEAFDS?=0
 
-CC:=$(CXX)
-CXX:=gcc-11
+LEAFDS=0
+
+CC:=g++-11
+CXX:=g++-11
 
 ifeq ($(LEAFDS),1)
 CFLAGS := -Wall -Wextra -O$(OPT) -g  -std=c++20 -IParallelTools/ -IleafDS/ -I../tlx-leafds -gdwarf-4
@@ -27,7 +29,8 @@ CFLAGS += -fsanitize=undefined,address -fno-omit-frame-pointer
 endif
 endif
 
-LDFLAGS := -lrt -lm -lpthread -lm -ldl -latomic -ljemalloc
+# LDFLAGS := -lrt -lm -lpthread -lm -ldl -latomic -ljemalloc
+LDFLAGS := -lrt -lm -lm -ldl -latomic -ljemalloc -lstdc++ -pthread
 # -ljemalloc -ltcmalloc
 
 ifeq ($(VALGRIND),0)

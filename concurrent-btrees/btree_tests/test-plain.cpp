@@ -12,6 +12,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <pthread.h>
 
 #if CILK != 1
 #define cilk_for for
